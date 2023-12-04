@@ -1,36 +1,31 @@
-#import the modules
-import os
-import glob
+from fastapi import FastAPI, StreamingResponse
+from psycopg2 import connect
 import pandas as pd
-import csv
 
-# Function to generate logs (replace this with your actual log generation code)
-def generate_logs():
-    # Replace this with your actual log generation code
-    logs = [
-        {"Movimentação": "Movement1", "Solicitações": 10, "Gravações": 5},
-        {"Movimentação": "Movement2", "Solicitações": 8, "Gravações": 3},
-        # Add more log entries as needed
-    ]
-    return logs
+app = FastAPI()
 
-with open('logs.csv', 'w', newline='') as file:
-    writer = csv.writer(file)
-    field = ["Movimentação", "Solicitações", "Gravações"]
-    
-    writer.writerow(field)
+@app.get("/download_table/{table_name}") # insert actual table name in place of {table_name} in all instances
+async def download_table(table_name: str):
+    # Connect to database
+    conn = connect(host="your_host", port="5432", dbname="your_db", user="your_user", password="your_password") # insert actual values in place of your_host, your_db, etc.
 
-    # Get logs from another piece of code (function: generate_logs)
-    logs = generate_logs()
+    # Fetch data with optional filter
+    query = f"SELECT * FROM {table_name}"
+    # Add filter logic based on request parameters if needed
 
-    for log in logs:
-        writer.writerow([log["Movimentação"], log["Solicitações"], log["Gravações"]])
+    cursor = conn.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
 
-#list all csv files only
-csv_files = glob.glob('*.{}'.format('csv'))
+    # Convert to pandas DataFrame
+    df = pd.DataFrame(data)
 
-# Read existing CSV files into a DataFrame
-df_combined = pd.concat((pd.read_csv(file) for file in csv_files), ignore_index=True)
+    # Prepare CSV data
+    csv_data = df.to_csv(index=False, header=True).encode()
 
-# Display the resulting DataFrame
-print(df_combined)
+    # Send CSV response
+    return StreamingResponse(
+        content=csv_data,
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename={table_name}.csv"},
+    )
