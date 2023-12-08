@@ -1,5 +1,6 @@
 "use client";
 import React, {useState} from 'react';
+import { useEffect } from "react";
 import Link from 'next/link';
 import styles from '../styles/chatbot.module.css';
 import '../globals.css';
@@ -26,6 +27,7 @@ const ChatbotPage = () => {
 
 
   return (
+    /*container principal*/
     <div className={styles.container}>
       
       <Link href="/instructions">
@@ -33,7 +35,8 @@ const ChatbotPage = () => {
           <img src="/arrow-left.png" alt="back"/> 
         </button>
       </Link>
-      
+
+     
 
 
       <div className={styles.instructionsContainer}>
@@ -49,6 +52,7 @@ const ChatbotPage = () => {
         <p className={styles.textoInserido}></p>
 
         <div className={styles.inputWithIcon}>
+          
           <input type="text" placeholder="Digite algo..." className={styles.input} value={inputText} onChange={handleInputChange} onKeyDown={handleKeyPress}/>
           <button className={styles.sendIcon} onClick={handleSendClick}>
               <img src="/send.png" alt="send"/> 
