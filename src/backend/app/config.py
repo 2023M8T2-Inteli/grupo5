@@ -1,10 +1,12 @@
 import os
-
+from dotenv import load_dotenv
 from pydantic import BaseSettings, Field
 
-
+load_dotenv()
+url_banco = os.environ.get("URL_BANCO")
 class Settings(BaseSettings):
-    db_url: str = Field("postgresql://postgres:0912@localhost:5432/projeto_naviguide")
+    
+    db_url = Field(url_banco)
 
 
 settings = Settings()
