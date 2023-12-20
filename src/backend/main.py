@@ -24,7 +24,9 @@ import re
 
 load_dotenv()
 
-SERVER_URL = "http://localhost:5000"
+#SERVER_URL = "http://localhost:5000"
+SERVER_URL = "http://websocket:5000"
+
 sio = socketio.Client()
 sio.connect(SERVER_URL)
 

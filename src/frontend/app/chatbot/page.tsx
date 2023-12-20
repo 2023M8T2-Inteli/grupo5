@@ -7,6 +7,9 @@ import '../globals.css';
 
 const ChatbotPage = () => {
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log(apiUrl)
+
   const [inputText, setInputText] = useState('');
   const [audioFile, setAudioFile] = useState(null);
 
@@ -18,7 +21,7 @@ const ChatbotPage = () => {
     console.log('send click')
     if (inputText) {
       try {
-        const response = await axios.post('http://localhost:8000/tts/', { text: inputText });
+        const response = await axios.post(`http://localhost:8000/tts/`, { text: inputText });
         if (response.data) {
           const audioUrl = URL.createObjectURL(new Blob([response.data]));
           const audio = new Audio(audioUrl);
