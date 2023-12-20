@@ -13,9 +13,12 @@ class Battery(Node):
         )
 
     def percentage_callback(self, msg):
-        self.get_logger().info(f"A bateria está com {msg.battery_state.percentage}")
+        self.get_logger().info(f"A bateria está com {msg.percentage}")
 
 def main(args=None):
     rclpy.init(args=args)
     bs = Battery()
     rclpy.spin(bs)
+
+if __name__ == '__main__':
+    main()
