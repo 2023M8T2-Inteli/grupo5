@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  frontend:
+    build: ./frontend
+    command: sh -c "npm run dev"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/public:/app/public
+
   backend:
     build: ./backend
     command: sh -c "python3 main.py"
@@ -8,6 +18,8 @@ services:
       - "8000:8000"
     depends_on:
       - websocket
+    volumes:
+      - ./frontend/public:/app/public
 
   websocket:
     build: ./bridge

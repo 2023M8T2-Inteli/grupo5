@@ -7,9 +7,6 @@ import '../globals.css';
 
 const ChatbotPage = () => {
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  console.log(apiUrl)
-
   const [inputText, setInputText] = useState('');
   const [audioFile, setAudioFile] = useState(null);
 

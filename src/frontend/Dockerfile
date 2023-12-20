@@ -5,4 +5,3 @@ WORKDIR /frontend
 COPY . .
 
 RUN npm i
-

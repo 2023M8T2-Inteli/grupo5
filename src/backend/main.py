@@ -108,16 +108,30 @@ def receber_dados(data: DataModel):
     resposta = connect_gpt(data.dados)
     return resposta
 
+import os
+
 @app.post("/tts/")
 async def text_to_speech(text: str = Body(...), lang: str = Body(default="pt-br")):
     try:
         tts = gTTS(text=text, lang=lang)
-        unique_file_name = f"speech_{uuid.uuid4()}.mp3"  # Gerar um nome de arquivo único
-        file_path = f"../frontend/public/{unique_file_name}"
+        
+        # Diretório relativo ao diretório de trabalho do script
+        public_dir = "public"
+        unique_file_name = f"speech_{uuid.uuid4()}.mp3"
+        
+        # Caminho relativo ao diretório de trabalho do script
+        file_path = os.path.join(public_dir, unique_file_name)
+
+        # Certifique-se de que o diretório de destino existe
+        if not os.path.exists(public_dir):
+            os.makedirs(public_dir)
+
         tts.save(file_path)
-        return {"audioUrl": f"/{unique_file_name}"}
+
+        return {"audioUrl": f"/{file_path}"}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Error: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
     
 @app.delete("/delete_audios")
 async def delete_audios():
