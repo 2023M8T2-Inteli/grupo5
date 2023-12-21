@@ -8,7 +8,11 @@ const Table = () => {
 
     useEffect(() => {
         // Ao montar o componente, fazer a requisição GET para obter dados da tabela
-        axios.get('http://127.0.0.1:8000/historic')
+        const token = window.localStorage.getItem("token");
+        axios.get('http://127.0.0.1:8000/historic',{
+            headers: { Authorization: `Bearer ${token}`,},
+            
+          })
             .then(response => setTableData(response.data))
             .catch(error => console.error('Erro ao obter dados da tabela:', error));
     }, []);

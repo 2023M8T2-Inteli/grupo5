@@ -13,6 +13,10 @@ class UserSchema(BaseModel):
     Password : str = Field(default=None)
     Document: str = Field(default=None)
 
+class LoginSchema(BaseModel):
+    Name: str = Field(default=None)
+    Password: str = Field(default=None)
+
 class HistoricSchema(BaseModel):
     id : int = Field(default=None, gt=0)
     Id_P: int = Field(default=None, gt=0)

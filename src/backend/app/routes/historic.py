@@ -1,11 +1,12 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Depends, Body
 from model import HistoricSchema
 from db import database, Historic
+from .jwt_bearer import jwtBearer
 
 app = APIRouter()
 
 
-@app.get("/historic")
+@app.get("/historic",dependencies=[Depends(jwtBearer())])
 async def read_Historic():
     if not database.is_connected:
         await database.connect()
@@ -13,7 +14,7 @@ async def read_Historic():
     return await Historic.objects.all()
 
 
-@app.post("/historic")
+@app.post("/historic",dependencies=[Depends(jwtBearer())])
 async def create_Historic(hist: HistoricSchema = Body(default=None)):
     if not database.is_connected:
         await database.connect()
@@ -25,7 +26,7 @@ async def create_Historic(hist: HistoricSchema = Body(default=None)):
     return {"success": "Successfully created"}
 
 
-@app.put("/historic")
+@app.put("/historic",dependencies=[Depends(jwtBearer())])
 async def update_Historic(new_Hist: HistoricSchema):
     if not database.is_connected:
         await database.connect()
@@ -37,7 +38,7 @@ async def update_Historic(new_Hist: HistoricSchema):
                                                data=new_Hist.data)
 
 
-@app.delete("/historic/{Id}")
+@app.delete("/historic/{Id}",dependencies=[Depends(jwtBearer())])
 async def delete_Historic(Id: int):
     if not database.is_connected:
         await database.connect()

@@ -21,6 +21,7 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
   const handleConfirm = async () => {
 
     try {
+      const token = window.localStorage.getItem("token");
         const formattedDate = date ? format(date, 'yyyy-MM-dd') : null;
       const response = await axios.post('http://127.0.0.1:8000/historic',{
         Id_P: id,
@@ -28,6 +29,9 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
         Name_P: name_P,
         amount: amount,
         data: formattedDate
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
       }
       );
 

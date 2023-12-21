@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-body {
+.body-l {
   background: #f6f5f7;
   display: flex;
   justify-content: center;
@@ -13,16 +13,16 @@ body {
   margin: -20px 0 50px;
 }
 
-h1 {
+.h1-l {
   font-weight: bold;
   margin: 0;
 }
 
-h2 {
+.h2-l {
   text-align: center;
 }
 
-p {
+.p-l {
   font-size: 14px;
   font-weight: 100;
   line-height: 20px;
@@ -30,18 +30,18 @@ p {
   margin: 20px 0 30px;
 }
 
-span {
+.span-l {
   font-size: 12px;
 }
 
-a {
+.a-l {
   color: #333;
   font-size: 14px;
   text-decoration: none;
   margin: 15px 0;
 }
 
-button {
+.button-l {
   border-radius: 20px;
   border: 1px solid #38aafa;
   background-color: #38aafa;
@@ -54,20 +54,20 @@ button {
   transition: transform 80ms ease-in;
 }
 
-button:active {
+.button-l:active {
   transform: scale(0.95);
 }
 
-button:focus {
+.button-l:focus {
   outline: none;
 }
 
-button.ghost {
+.button-l.ghost {
   background-color: transparent;
   border-color: #ffffff;
 }
 
-form {
+.form-l {
   background-color: #ffffff;
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@ form {
   text-align: center;
 }
 
-input {
+.input-l {
   background-color: #eee;
   border: none;
   padding: 12px 15px;

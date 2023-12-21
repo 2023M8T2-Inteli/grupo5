@@ -1,5 +1,6 @@
+from .jwt_handler import signJWT
 from fastapi import APIRouter, Body
-from model import UserSchema
+from model import UserSchema, LoginSchema
 from db import database, User
 
 app = APIRouter()
@@ -23,6 +24,26 @@ async def create_User(user: UserSchema = Body(default=None)):
                               Password=user.Password,
                               Document=user.Document)
     return {"success": "Successfully created"}
+
+
+async def check_user(data: LoginSchema):
+    if not database.is_connected:
+        await database.connect()
+
+    users = await User.objects.all()
+    print(users)
+    for user in users:
+        if (user.Name == data.Name) and (user.Password == data.Password):
+            print("entrou")
+            return True
+    return False
+
+
+@app.post("/login")
+async def user_login(user: LoginSchema = Body(default=None)):
+    if await check_user(user):
+        return signJWT()
+    return {"error": "Dados invalidos"}
 
 
 @app.put("/users")
